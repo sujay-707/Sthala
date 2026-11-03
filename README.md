@@ -75,6 +75,3 @@ Start the frontend in another terminal:
 cd client
 npm run dev
 ```
-
-- [GitHub](https://github.com/sujay-707)
-- [Live Project](https://mysthala.netlify.app)
