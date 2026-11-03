@@ -4,7 +4,16 @@ const express = require("express"),
   cors = require("cors");
 const app = express(),
   PORT = process.env.PORT || 8080;
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://mysthala.netlify.app",
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+  }),
+);
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.get("/api/health", (req, res) =>
@@ -34,12 +43,10 @@ app.use((err, req, res, next) => {
         : err.code === 11000
           ? 409
           : 500;
-  res
-    .status(status)
-    .json({
-      message:
-        status === 500 ? "Something went wrong on the server" : err.message,
-    });
+  res.status(status).json({
+    message:
+      status === 500 ? "Something went wrong on the server" : err.message,
+  });
 });
 async function start() {
   const uri = process.env.MONGODB_URI || process.env.ATLASDB_URL;
